@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/menu.dart';
+import 'package:myportofolio_mobile/project_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(),
+      routes: {
+        '/project-form': (context) => const ProjectFormPage(),
+      },
     );
   }
 }
