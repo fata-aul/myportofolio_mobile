@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:myportofolio_mobile/models/portfolio_project.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 
 class ProjectFormPage extends StatefulWidget {
@@ -167,6 +168,15 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+                        ProjectStore.add(
+                          PortfolioProject(
+                            name: _projectName.trim(),
+                            description: _description.trim(),
+                            category: _category,
+                            technologies: _technologies.trim(),
+                            link: _projectLink.trim(),
+                          ),
+                        );
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -212,3 +222,4 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
     );
   }
 }
+

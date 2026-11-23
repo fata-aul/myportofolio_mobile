@@ -1,4 +1,6 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:myportofolio_mobile/screens/education_form_page.dart';
+import 'package:myportofolio_mobile/screens/project_list_page.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -9,8 +11,13 @@ class MyHomePage extends StatelessWidget {
   static const String kelas = 'PBP F';
 
   static const List<ItemHomepage> items = [
-    ItemHomepage('Lihat Proyek', Icons.folder, Colors.blue),
-    ItemHomepage('Tambah Proyek', Icons.add_circle, Colors.green),
+    ItemHomepage('Lihat Proyek', Icons.folder, Colors.blue, pageBuilder: ProjectListPage.new),
+    ItemHomepage(
+      'Tambah Edukasi',
+      Icons.school,
+      Colors.indigo,
+      pageBuilder: EducationFormPage.new,
+    ),
     ItemHomepage('Logout', Icons.logout, Colors.red),
   ];
 
@@ -20,10 +27,7 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'MyPortfolio',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('MyPortfolio', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
       ),
@@ -35,23 +39,16 @@ class MyHomePage extends StatelessWidget {
           children: [
             Row(
               children: const [
-                Expanded(
-                  child: InfoCard(title: 'NPM', content: npm),
-                ),
-                Expanded(
-                  child: InfoCard(title: 'Name', content: nama),
-                ),
-                Expanded(
-                  child: InfoCard(title: 'Class', content: kelas),
-                ),
+                Expanded(child: InfoCard(title: 'NPM', content: npm)),
+                Expanded(child: InfoCard(title: 'Name', content: nama)),
+                Expanded(child: InfoCard(title: 'Class', content: kelas)),
               ],
             ),
             const SizedBox(height: 24),
             Text(
               'Selamat datang di MyPortfolio Mobile!',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             GridView.count(
@@ -77,28 +74,27 @@ class InfoCard extends StatelessWidget {
   final String content;
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: Column(
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Text(content, textAlign: TextAlign.center),
-          ],
+  Widget build(BuildContext context) => Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: Column(
+            children: [
+              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Text(content, textAlign: TextAlign.center),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class ItemHomepage {
-  const ItemHomepage(this.name, this.icon, this.color);
+  const ItemHomepage(this.name, this.icon, this.color, {this.pageBuilder});
 
   final String name;
   final IconData icon;
   final Color color;
+  final Widget Function()? pageBuilder;
 }
 
 class ItemCard extends StatelessWidget {
@@ -114,13 +110,14 @@ class ItemCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
+          final pageBuilder = item.pageBuilder;
+          if (pageBuilder != null) {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => pageBuilder()));
+            return;
+          }
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text('Kamu telah menekan tombol ${item.name}!'),
-              ),
-            );
+            ..showSnackBar(SnackBar(content: Text('Kamu telah menekan tombol ${item.name}!')));
         },
         child: Padding(
           padding: const EdgeInsets.all(8),
@@ -132,10 +129,7 @@ class ItemCard extends StatelessWidget {
               Text(
                 item.name,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ],
           ),

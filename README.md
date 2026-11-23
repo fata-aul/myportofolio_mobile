@@ -26,3 +26,21 @@
 ChatGPT digunakan untuk membantu meninjau kecocokan kode dengan instruksi dan merapikan implementasi Flutter.
 
 
+
+## Tugas 8
+
+1. **Perbedaan navigasi**  
+   `Navigator.push()` menambahkan halaman ke atas navigation stack sehingga tombol kembali atau `Navigator.pop()` dapat kembali ke halaman sebelumnya. `Navigator.pushReplacement()` mengganti halaman paling atas, sehingga halaman lama tidak lagi menjadi tujuan tombol kembali. `Navigator.pop()` menutup halaman paling atas dan kembali ke halaman sebelumnya. Kartu **Tambah Edukasi** memakai `Navigator.push()` agar pengguna dapat kembali dari formulir ke beranda. Opsi **Home** pada drawer memakai `pushAndRemoveUntil()` untuk membuka beranda sekaligus membersihkan halaman di atasnya, jadi tombol kembali tidak membawa pengguna kembali ke formulir.
+
+2. **Struktur halaman dan tema**  
+   `Scaffold` menyediakan kerangka halaman, `AppBar` menampilkan judul dan tindakan, dan `Drawer` menjaga pilihan navigasi tetap tersedia di halaman utama maupun formulir. Keduanya memakai `Theme.of(context).colorScheme`; misalnya warna `primary` dipakai pada AppBar dan warna `onPrimary` untuk teksnya. Dengan begitu, warna utama tetap konsisten di kedua halaman.
+
+3. **Tata letak responsif**  
+   Form memakai `SingleChildScrollView` dan `Padding`. Scroll memungkinkan seluruh field dan tombol Simpan dijangkau pada layar pendek atau saat keyboard tampil, sedangkan padding menjaga isi tidak menempel ke tepi layar. `Column` menyusun input secara vertikal agar nyaman dibaca pada layar ponsel.
+
+4. **Validasi form**  
+   `GlobalKey<FormState>` memberi akses ke keadaan form, setiap `validator` memeriksa nilai sesuai aturannya, dan `validate()` menjalankan semua validator saat Simpan ditekan. Contohnya, nama institusi yang hanya berisi spasi ditolak setelah `trim()`, dan tanggal selesai sebelum tanggal mulai juga ditolak. Memilih jenis keyboard saja tidak cukup karena pengguna masih dapat mengirim nilai kosong, spasi, atau tanggal yang urutannya tidak masuk akal; validasi memeriksa makna dan aturan datanya.
+
+### Penggunaan AI
+
+ChatGPT membantu menyusun halaman formulir edukasi, navigasi, validasi. Implementasi dan hasil analisis tetap ditinjau di proyek Flutter.
